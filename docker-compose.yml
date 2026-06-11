@@ -1,0 +1,66 @@
+services:
+
+  # Frontend nginx
+  frontend:
+    image: nginx:alpine
+    container_name: yplaza-frontend
+    ports:
+    - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+    networks:
+      - yplaza-net
+
+  # Backend FastAPI
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: yplaza-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017
+      - MONGODB_DB_NAME=yplaza
+      - SECRET_KEY=${SECRET_KEY:-dev_secret_key_change_in_prod}
+      - DEBUG=true
+      - ENVIRONMENT=development
+      - ALLOWED_ORIGINS=http://localhost
+    volumes:
+      - ./backend:/app
+      - uploads_data:/app/uploads
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - yplaza-net
+
+  # MongoDB
+  mongo:
+    image: mongo:7.0
+    container_name: yplaza-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=yplaza
+    volumes:
+      - mongo_data:/data/db
+      - ./backend/scripts/mongo-init.js:/docker-entrypoint-initdb.d/init.js
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - yplaza-net
+
+volumes:
+  mongo_data:
+  uploads_data:
+
+networks:
+  yplaza-net:
+    driver: bridge
