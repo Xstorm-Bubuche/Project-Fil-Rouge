@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Y·Plaza - Accueil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav">
+    <a class="nav-logo" onclick="goTo('home')">Y·PLAZA <span>IMMOBILIER</span></a>
+    <div class="nav-links">
+      <button class="nav-btn active" onclick="goTo('home')">Accueil</button>
+      <button class="nav-btn" onclick="goTo('annonces')">Annonces</button>
+      <button class="nav-btn" onclick="goTo('contact')">Contact</button>
+      <button class="nav-btn" onclick="goTo('login')">Connexion</button>
+    </div>
+    <div class="nav-right">
+      <span class="badge">Utilisateur</span>
+      <div class="avatar">MR</div>
+    </div>
+  </nav>
+
+  <!-- HOME PAGE -->
+  <div class="hero">
+    <h1>Trouvez votre bien <em>idéal</em></h1>
+    <p>12 agences en France, des milliers de biens résidentiels et professionnels à votre disposition.</p>
+    <div class="search-bar">
+      <select>
+        <option>Acheter</option>
+        <option>Louer</option>
+        <option>Estimer</option>
+      </select>
+      <input type="text" placeholder="Ville, code postal, quartier...">
+      <button class="btn-gold" onclick="goTo('annonces')">Rechercher</button>
+    </div>
+    <div class="filters-row">
+      <span class="filter-chip active" onclick="filterChip(this,'Tous')">Tous</span>
+      <span class="filter-chip" onclick="filterChip(this,'Appartement')">Appartement</span>
+      <span class="filter-chip" onclick="filterChip(this,'Maison')">Maison</span>
+      <span class="filter-chip" onclick="filterChip(this,'Bureau')">Bureau</span>
+      <span class="filter-chip" onclick="filterChip(this,'Commerce')">Commerce</span>
+    </div>
+    <div class="hero-stats"></div>
+  </div>
+
+  <!-- SECTION -->
+  <div class="section">
+    <!-- AI INSIGHTS -->
+    <div class="ai-section">
+      <div class="ai-header"><div class="ai-dot"></div><span class="ai-title">Analyse IA · Tendances marché</span></div>
+      <div class="ai-insights">
+        <div class="ai-insight">
+          <div class="ai-insight-label">Prix moyen/m² — Aix-en-Provence</div>
+          <div class="ai-insight-value">4 820 €</div>
+          <div class="ai-insight-sub trend-up">+3.2% sur 6 mois</div>
+        </div>
+        <div class="ai-insight">
+          <div class="ai-insight-label">Zone la plus dynamique</div>
+          <div class="ai-insight-value">Marseille 8ème</div>
+          <div class="ai-insight-sub trend-up">+47 nouvelles annonces</div>
+        </div>
+        <div class="ai-insight">
+          <div class="ai-insight-label">Prévision ventes Q3 2025</div>
+          <div class="ai-insight-value">+12% estimé</div>
+          <div class="ai-insight-sub trend-up">Modèle ARIMA · R²=0.91</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTINGS -->
+    <div class="section-header">
+      <div>
+        <div class="section-title">Annonces récentes</div>
+        <div class="count-tag">1 247 biens disponibles</div>
+      </div>
+    </div>
+    <div class="listings-grid" id="listings"></div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h2>Besoin d'aide pour trouver votre bien ?</h2>
+      <p>Nos agents experts sont disponibles pour vous guider dans vos recherches immobilières.</p>
+      <button class="btn-gold" onclick="goTo('contact')">Nous contacter</button>
+    </div>
+  </div>
+
+  <script src="js/router.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Y·Plaza - Connexion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/login.css">
+  <style>
+    .login-container {
+      max-width: 400px;
+      margin: 3rem auto;
+    }
+    .login-form {
+      background: var(--dark2);
+      border: 1px solid #2A2A2A;
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .login-form h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .login-form label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+      margin-top: 1rem;
+    }
+    .login-form input {
+      width: 100%;
+      background: var(--dark3);
+      border: 1px solid #3A3020;
+      color: var(--text);
+      padding: 0.75rem;
+      border-radius: var(--radius);
+      font-family: 'DM Sans';
+      font-size: 0.9rem;
+    }
+    .login-form input:focus {
+      border-color: var(--gold);
+    }
+    .login-form button {
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+    .login-links {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .login-links a {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+    .login-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav>
+    <a class="logo" onclick="goTo('home')">Y·PLAZA <span>IMMOBILIER</span></a>
+    <div class="nav-links">
+      <button class="nav-btn" onclick="goTo('home')">Accueil</button>
+      <button class="nav-btn" onclick="goTo('annonces')">Annonces</button>
+      <button class="nav-btn" onclick="goTo('contact')">Contact</button>
+      <button class="nav-btn active" onclick="goTo('login')">Connexion</button>
+    </div>
+    <div class="nav-right">
+      <span class="badge">Visiteur</span>
+      <div class="avatar">?</div>
+    </div>
+  </nav>
+
+  <!-- LOGIN PAGE -->
+  <div class="login-container">
+    <form class="login-form" onsubmit="handleLogin(event)">
+      <h2>Connexion</h2>
+      
+      <label>Email</label>
+      <input type="email" placeholder="marie.renaud@yplaza.fr" required>
+      
+      <label>Mot de passe</label>
+      <input type="password" placeholder="••••••••" required>
+      
+      <button type="submit" class="btn-gold">Se connecter</button>
+      
+      <div class="login-links">
+        <a href="#">Mot de passe oublié ?</a>
+        <br>
+        <a href="#">Créer un compte</a>
+      </div>
+    </form>
+    
+    <div style="text-align: center; margin-top: 2rem; color: var(--muted); font-size: 0.85rem;">
+      <p>Identifiants de démo :</p>
+      <p>Email: marie.renaud@yplaza.fr<br>Mot de passe: password123</p>
+    </div>
+  </div>
+
+  <script src="js/router.js"></script>
+  <script>
+    async function handleLogin(e) {
+      e.preventDefault();
+      const form = e.target;
+      const email = form.querySelector('input[type="email"]').value.trim();
+      const password = form.querySelector('input[type="password"]').value;
+
+      try {
+        // compute API base: if the page is served from the frontend nginx (port 8080)
+        // we need to call the backend on port 8000. When the page is served by the
+        // backend (port 8000) a relative path is fine.
+        const API_BASE = (window.location.hostname === 'localhost' && window.location.port === '8080')
+          ? 'http://localhost:8000'
+          : '';
+
+        const res = await fetch(API_BASE + '/api/v1/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          alert('Erreur connexion: ' + (err.detail || res.statusText));
+          return;
+        }
+
+        const data = await res.json();
+        // store tokens
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('refresh_token', data.refresh_token);
+        // redirect to dashboard
+        goTo('dashboard');
+      } catch (err) {
+        console.error('Login fetch error', err);
+        alert('Erreur réseau lors de la connexion');
+      }
+    }
+  </script>
+</body>
+</html>

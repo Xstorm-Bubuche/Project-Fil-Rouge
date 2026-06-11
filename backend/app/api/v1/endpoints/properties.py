@@ -76,3 +76,69 @@ async def delete_property(
 ):
     """Suppression d'un bien — réservé aux admins."""
     await property_service.delete(property_id, agent)
+
+
+# Dev helpers
+from app.core.config import settings
+from typing import List
+from app.models.property import Property
+from fastapi import HTTPException
+
+
+@router.post("/public", response_model=PropertyResponse)
+async def public_create(data: PropertyCreate):
+    """Création publique d'un bien (mode development only)."""
+    if settings.ENVIRONMENT != "development":
+        raise HTTPException(status_code=403, detail="Disponible en mode development uniquement")
+
+    prop = Property(
+        **data.model_dump(),
+        agency_id="",
+        agent_id="",
+    )
+    await prop.insert()
+    return property_service._to_response(prop)
+
+
+@router.post("/seed", response_model=List[PropertyResponse])
+async def seed_properties(count: int = 5):
+    """Ajoute `count` annonces factices dans la base (dev only)."""
+    if settings.ENVIRONMENT != "development":
+        raise HTTPException(status_code=403, detail="Disponible en mode development uniquement")
+
+    samples: List[PropertyResponse] = []
+    cities = [
+        ("Aix-en-Provence", "13100"),
+        ("Marseille", "13008"),
+        ("Lyon", "69003"),
+        ("Toulouse", "31000"),
+        ("Nice", "06000"),
+    ]
+
+    for i in range(count):
+        city, postal = cities[i % len(cities)]
+        title = f"Appartement {2 + (i%3)} pièces - {city}"
+        desc = "Bel appartement situé au coeur de la ville, à proximité des commerces et transports. Rénové, lumineux et bien agencé."
+        data = {
+            "title": title,
+            "description": desc,
+            "property_type": "apartment",
+            "listing_type": "sale",
+            "address": {
+                "street": f"{10 + i} Rue de Test",
+                "city": city,
+                "postal_code": postal,
+                "department": "",
+                "region": "",
+            },
+            "surface_m2": 45.0 + i * 10,
+            "rooms": 2 + (i % 3),
+            "bedrooms": 1 + (i % 2),
+            "bathrooms": 1,
+            "price": 120000 + i * 50000,
+        }
+        prop = Property(**data, agency_id="", agent_id="")
+        await prop.insert()
+        samples.append(property_service._to_response(prop))
+
+    return samples

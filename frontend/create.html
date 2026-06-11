@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Créer une annonce - Y·Plaza (dev)</title>
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    .create-container{max-width:800px;margin:2rem auto;padding:1rem}
+    label{display:block;margin-top:0.75rem}
+    input,textarea,select{width:100%;padding:.6rem;border-radius:6px;margin-top:0.25rem}
+    .btn-gold{margin-top:1rem}
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="logo" onclick="location.href='index.html'">Y·PLAZA</a>
+  </nav>
+  <div class="create-container">
+    <h2>Créer une annonce (mode dev)</h2>
+    <form id="createForm">
+      <label>Titre</label>
+      <input name="title" required minlength="5">
+      <label>Description</label>
+      <textarea name="description" required minlength="20"></textarea>
+      <label>Ville</label>
+      <input name="city" required>
+      <label>Code postal</label>
+      <input name="postal_code" required>
+      <label>Surface (m²)</label>
+      <input name="surface_m2" type="number" step="0.1" required>
+      <label>Prix (€)</label>
+      <input name="price" type="number" step="0.01" required>
+      <label>Type</label>
+      <select name="property_type">
+        <option value="apartment">Appartement</option>
+        <option value="house">Maison</option>
+        <option value="commercial">Local</option>
+        <option value="land">Terrain</option>
+      </select>
+      <label>Listing</label>
+      <select name="listing_type">
+        <option value="sale">Vente</option>
+        <option value="rental">Location</option>
+      </select>
+      <button class="btn-gold" type="submit">Créer</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script src="js/create.js"></script>
+</body>
+</html>

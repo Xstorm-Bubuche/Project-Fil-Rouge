@@ -33,6 +33,12 @@ class Settings(BaseSettings):
     UPLOAD_DIR: str = "./uploads"
     MAX_FILE_SIZE_MB: int = 10
 
+    # Test user (création automatique si présent)
+    TEST_USER_EMAIL: str | None = None
+    TEST_USER_PASSWORD: str | None = None
+    TEST_USER_FIRST_NAME: str = "Test"
+    TEST_USER_LAST_NAME: str = "User"
+
     @property
     def MAX_FILE_SIZE_BYTES(self) -> int:
         return self.MAX_FILE_SIZE_MB * 1024 * 1024

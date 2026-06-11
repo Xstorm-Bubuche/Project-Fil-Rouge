@@ -1,0 +1,7 @@
+
+
+TEST_USER_EMAIL=admin@test.local
+TEST_USER_PASSWORD=changeme
+TEST_USER_FIRST_NAME=Admin
+TEST_USER_LAST_NAME=Test
+
