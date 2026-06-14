@@ -1,6 +1,10 @@
 // Annonces Page - Liste des biens avec filtres
 class AnnoncesPage {
   constructor() {
+    // compute API base to call backend when served from nginx on :8080
+    this.API_BASE = (window.location.hostname === 'localhost' && window.location.port === '8080')
+      ? 'http://localhost:8000'
+      : '';
     this.allProperties = [];
     this.filteredProperties = [...this.allProperties];
     this.currentFilter = {
@@ -13,14 +17,17 @@ class AnnoncesPage {
   }
 
   renderPropertyCard(property) {
-    const typeTag = property.listingType === 'VENTE' ? 'tag-sale' : 'tag-rent';
-    const typeLabel = property.listingType === 'VENTE' ? 'Vente' : 'Location';
-    const displayPrice = property.listingType === 'VENTE' 
-      ? `${property.price.toLocaleString()} €` 
+    // Map backend fields to frontend display
+    const listingType = property.listing_type === 'sale' ? 'VENTE' : 'LOCATION';
+    const typeTag = property.listing_type === 'sale' ? 'tag-sale' : 'tag-rent';
+    const typeLabel = listingType === 'VENTE' ? 'Vente' : 'Location';
+    const displayPrice = property.listing_type === 'sale'
+      ? `${property.price.toLocaleString()} €`
       : `${property.price}€/mois`;
+    const location = property.address?.city || '';
 
     return `
-      <div class="card" onclick="goTo('bien'); sessionStorage.setItem('propertyId', ${property.id})">
+      <div class="card" onclick="goTo('bien'); sessionStorage.setItem('propertyId', '${property.id}')">
         <div class="card-img">
           <div class="card-tag ${typeTag}">${typeLabel}</div>
           <button class="card-fav">♡</button>
@@ -29,11 +36,11 @@ class AnnoncesPage {
         <div class="card-body">
           <div class="card-price">${displayPrice}</div>
           <div class="card-title">${property.title}</div>
-          <div class="card-loc">📍 ${property.location}</div>
+          <div class="card-loc">📍 ${location}</div>
           <div class="card-stats">
-            <div class="card-stat"><strong>${property.surface}</strong> m²</div>
-            <div class="card-stat"><strong>${property.rooms}</strong> pièces</div>
-            <div class="card-stat"><strong>${property.bathrooms}</strong> SDB</div>
+            <div class="card-stat"><strong>${property.surface_m2}</strong> m²</div>
+            <div class="card-stat"><strong>${property.rooms ?? ''}</strong> pièces</div>
+            <div class="card-stat"><strong>${property.bathrooms ?? ''}</strong> SDB</div>
           </div>
         </div>
       </div>
@@ -82,7 +89,7 @@ class AnnoncesPage {
 
   init() {
     // Charger les propriétés depuis l'API
-    fetch('/api/v1/properties')
+    fetch(this.API_BASE + '/api/v1/properties')
       .then(res => res.json())
       .then(data => {
         // PropertyListResponse attendue { items: [...], total: N }

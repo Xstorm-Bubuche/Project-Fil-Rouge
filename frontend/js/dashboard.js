@@ -8,6 +8,9 @@ class DashboardPage {
       monthlyRevenue: 0,
       averageTime: 0
     };
+    this.API_BASE = (window.location.hostname === 'localhost' && window.location.port === '8080')
+      ? 'http://localhost:8000'
+      : '';
   }
 
   renderKPIs() {
@@ -64,11 +67,12 @@ class DashboardPage {
 
   init() {
     // charger les biens (ex: nécessaires pour le dashboard)
-    fetch('/api/v1/properties?per_page=50')
+    fetch(this.API_BASE + '/api/v1/properties?per_page=50')
       .then(res => res.json())
       .then(data => {
         this.properties = Array.isArray(data.items) ? data.items : [];
-        this.stats.activeProperties = this.properties.filter(p => p.status === 'ACTIF').length;
+        // status mapping: backend uses enums like 'available' -> map to uppercase for display
+        this.stats.activeProperties = this.properties.filter(p => p.status === 'available').length;
         // garde des valeurs factices pour les autres KPIs
         this.stats.salesCompleted = 7;
         this.stats.monthlyRevenue = 42000;

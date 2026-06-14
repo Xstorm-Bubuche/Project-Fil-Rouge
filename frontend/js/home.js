@@ -2,6 +2,9 @@
 class HomePage {
   constructor() {
     this.properties = [];
+    this.API_BASE = (window.location.hostname === 'localhost' && window.location.port === '8080')
+      ? 'http://localhost:8000'
+      : '';
   }
 
   renderHeroStats() {
@@ -73,7 +76,7 @@ class HomePage {
     }
 
     // charger les 6 dernières annonces
-    fetch('/api/v1/properties?page=1&per_page=6')
+    fetch(this.API_BASE + '/api/v1/properties?page=1&per_page=6')
       .then(res => res.json())
       .then(data => {
         this.properties = Array.isArray(data.items) ? data.items : [];

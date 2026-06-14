@@ -105,44 +105,6 @@
   </div>
 
   <script src="js/router.js"></script>
-  <script>
-    async function handleLogin(e) {
-      e.preventDefault();
-      const form = e.target;
-      const email = form.querySelector('input[type="email"]').value.trim();
-      const password = form.querySelector('input[type="password"]').value;
-
-      try {
-        // compute API base: if the page is served from the frontend nginx (port 8080)
-        // we need to call the backend on port 8000. When the page is served by the
-        // backend (port 8000) a relative path is fine.
-        const API_BASE = (window.location.hostname === 'localhost' && window.location.port === '8080')
-          ? 'http://localhost:8000'
-          : '';
-
-        const res = await fetch(API_BASE + '/api/v1/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          alert('Erreur connexion: ' + (err.detail || res.statusText));
-          return;
-        }
-
-        const data = await res.json();
-        // store tokens
-        localStorage.setItem('access_token', data.access_token);
-        localStorage.setItem('refresh_token', data.refresh_token);
-        // redirect to dashboard
-        goTo('dashboard');
-      } catch (err) {
-        console.error('Login fetch error', err);
-        alert('Erreur réseau lors de la connexion');
-      }
-    }
-  </script>
+  <script src="js/login.js"></script>
 </body>
 </html>

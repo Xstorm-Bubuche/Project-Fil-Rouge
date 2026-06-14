@@ -2,7 +2,10 @@
 class PropertyDetailPage {
   constructor(propertyId) {
     this.property = null;
-    this.propertyId = propertyId;
+    this.propertyId = String(propertyId);
+    this.API_BASE = (window.location.hostname === 'localhost' && window.location.port === '8080')
+      ? 'http://localhost:8000'
+      : '';
   }
 
   renderSpecs() {
@@ -50,7 +53,7 @@ class PropertyDetailPage {
 
   init() {
     // Charger depuis l'API
-    fetch(`/api/v1/properties/${this.propertyId}`)
+    fetch(`${this.API_BASE}/api/v1/properties/${this.propertyId}`)
       .then(res => res.json())
       .then(data => {
         this.property = data;
