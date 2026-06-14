@@ -22,11 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
-      const res = await fetch('/api/v1/properties/public', {
+      const res = await fetch('/api/v1/properties/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
+        headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      },
+      body: JSON.stringify(body),
+    });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         result.innerHTML = '<p style="color:red">Erreur: ' + (err.detail || res.statusText) + '</p>';

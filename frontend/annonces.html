@@ -10,26 +10,25 @@
 </head>
 <body>
   <!-- NAV -->
-  <nav>
-    <a class="logo" onclick="goTo('home')">Y·PLAZA <span>IMMOBILIER</span></a>
+  <nav class="nav">
+    <a class="nav-logo" onclick="goTo('home')">Y·PLAZA <span>IMMOBILIER</span></a>
     <div class="nav-links">
       <button class="nav-btn" onclick="goTo('home')">Accueil</button>
-      <button class="nav-btn active" onclick="goTo('annonces')">Annonces</button>
-      <button class="nav-btn" onclick="goTo('contact')">Contact</button>
+      <button class="nav-btn" onclick="goTo('annonces')">Annonces</button>
+      <button class="nav-btn active" onclick="goTo('contact')">Contact</button>
       <button class="nav-btn" onclick="goTo('login')">Connexion</button>
     </div>
     <div class="nav-right">
-      <span class="badge">Utilisateur</span>
-      <div class="avatar">MR</div>
+      <span class="badge">Visiteur</span>
+      <div class="avatar">?</div>
     </div>
   </nav>
 
-  <!-- ANNONCES PAGE -->
   <div class="section">
     <div class="section-header">
       <div>
         <div class="section-title">Biens immobiliers</div>
-        <div class="count-tag" id="count-tag">1 247 biens disponibles</div>
+        <div class="count-tag" id="count-tag">Chargement...</div>
       </div>
       <select class="sort-select" onchange="sortProps(this.value)">
         <option value="recent">Plus récent</option>
@@ -39,11 +38,10 @@
       </select>
     </div>
 
-    <!-- FILTERS -->
     <div class="filters-container">
       <div class="filter-group">
         <label>Type de bien</label>
-        <select name="type" onchange="window.annoncesPage && window.annoncesPage.filterProperties()">
+        <select id="filter-type" onchange="window.annoncesPage && window.annoncesPage.filterProperties()">
           <option value="">Tous les types</option>
           <option value="APPARTEMENT">Appartement</option>
           <option value="MAISON">Maison</option>
@@ -54,7 +52,7 @@
       </div>
       <div class="filter-group">
         <label>Type d'annonce</label>
-        <select name="listingType" onchange="window.annoncesPage && window.annoncesPage.filterProperties()">
+        <select id="filter-listing" onchange="window.annoncesPage && window.annoncesPage.filterProperties()">
           <option value="">Vente & Location</option>
           <option value="VENTE">Vente</option>
           <option value="LOCATION">Location</option>
@@ -62,11 +60,11 @@
       </div>
     </div>
 
-    <!-- LISTINGS -->
     <div class="listings-grid" id="listings"></div>
   </div>
 
   <script src="js/router.js"></script>
+  <script src="js/auth-guard.js"></script>
   <script src="js/annonces.js"></script>
 </body>
 </html>

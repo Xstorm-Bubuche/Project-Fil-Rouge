@@ -10,8 +10,8 @@
 </head>
 <body>
   <!-- NAV -->
-  <nav>
-    <a class="logo" onclick="goTo('home')">Y·PLAZA <span>IMMOBILIER</span></a>
+  <nav class="nav">
+    <a class="nav-logo" onclick="goTo('home')">Y·PLAZA <span>IMMOBILIER</span></a>
     <div class="nav-links">
       <button class="nav-btn" onclick="goTo('home')">Accueil</button>
       <button class="nav-btn" onclick="goTo('annonces')">Annonces</button>
@@ -19,25 +19,25 @@
       <button class="nav-btn" onclick="goTo('login')">Connexion</button>
     </div>
     <div class="nav-right">
-      <span class="badge">Utilisateur</span>
-      <div class="avatar">MR</div>
+      <span class="badge">Visiteur</span>
+      <div class="avatar">?</div>
     </div>
   </nav>
 
   <!-- CONTACT PAGE -->
-  <div class="section">
+  <div class="contact-container">
     <form onsubmit="handleContact(event)">
       <h2 style="font-family: 'Playfair Display', serif; color: var(--gold); margin-bottom: 1.5rem;">Nous contacter</h2>
-      
+
       <label>Nom complet</label>
       <input type="text" placeholder="Jean Dupont" required>
-      
+
       <label>Email</label>
       <input type="email" placeholder="jean@exemple.fr" required>
-      
+
       <label>Téléphone</label>
       <input type="tel" placeholder="06 12 34 56 78">
-      
+
       <label>Agence</label>
       <select required>
         <option value="">Sélectionnez une agence</option>
@@ -46,7 +46,7 @@
         <option value="lyon">Lyon</option>
         <option value="toulouse">Toulouse</option>
       </select>
-      
+
       <label>Sujet</label>
       <select required>
         <option value="">Sélectionnez un sujet</option>
@@ -56,15 +56,16 @@
         <option value="vente">Vendre mon bien</option>
         <option value="autre">Autre</option>
       </select>
-      
+
       <label>Message</label>
       <textarea placeholder="Votre message..." required></textarea>
-      
+
       <button type="submit" class="btn-gold">Envoyer</button>
     </form>
   </div>
 
   <script src="js/router.js"></script>
+  <script src="js/auth-guard.js"></script>
   <script>
     function handleContact(e) {
       e.preventDefault();

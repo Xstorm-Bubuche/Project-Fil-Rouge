@@ -38,6 +38,16 @@ class Settings(BaseSettings):
     TEST_USER_PASSWORD: str | None = None
     TEST_USER_FIRST_NAME: str = "Test"
     TEST_USER_LAST_NAME: str = "User"
+    # Compte agent de test
+    TEST_AGENT_EMAIL: str | None = None
+    TEST_AGENT_PASSWORD: str | None = None
+    TEST_AGENT_FIRST_NAME: str = "Agent"
+    TEST_AGENT_LAST_NAME: str = "Test"
+    # Compte client de test
+    TEST_CLIENT_EMAIL: str | None = None
+    TEST_CLIENT_PASSWORD: str | None = None
+    TEST_CLIENT_FIRST_NAME: str = "Client"
+    TEST_CLIENT_LAST_NAME: str = "Test"
 
     @property
     def MAX_FILE_SIZE_BYTES(self) -> int:

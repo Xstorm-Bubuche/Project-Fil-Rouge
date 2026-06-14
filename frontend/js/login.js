@@ -29,8 +29,8 @@ window.handleLogin = async function (e) {
     localStorage.setItem('access_token', data.access_token);
     localStorage.setItem('refresh_token', data.refresh_token);
     // redirect to dashboard
-    if (window.goTo) window.goTo('dashboard');
-    else window.location.href = '/dashboard.html';
+    if (window.goTo) window.goTo('home');
+    else window.location.href = '/index.html';
   } catch (err) {
     console.error('Login fetch error', err);
     alert('Erreur réseau lors de la connexion');

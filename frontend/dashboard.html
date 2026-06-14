@@ -9,25 +9,24 @@
   <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-  <!-- NAV -->
-  <nav>
-    <a class="logo" onclick="goTo('home')">Y·PLAZA <span>IMMOBILIER</span></a>
+  <nav class="nav">
+    <a class="nav-logo" onclick="goTo('home')">Y·PLAZA <span>IMMOBILIER</span></a>
     <div class="nav-links">
       <button class="nav-btn" onclick="goTo('home')">Accueil</button>
       <button class="nav-btn" onclick="goTo('annonces')">Annonces</button>
       <button class="nav-btn" onclick="goTo('contact')">Contact</button>
-      <button class="nav-btn" onclick="goTo('login')">Profil</button>
+      <button class="nav-btn" onclick="goTo('login')">Connexion</button>
     </div>
     <div class="nav-right">
       <span class="badge">Agent</span>
-      <div class="avatar">MR</div>
+      <div class="avatar">?</div>
     </div>
   </nav>
 
-  <!-- DASHBOARD PAGE -->
   <div class="dash-layout">
     <div class="dash-sidebar">
       <div class="dash-nav-item active"><span class="dash-nav-icon">◈</span> Vue générale</div>
+      <div class="dash-nav-item" onclick="goTo('create')"><span class="dash-nav-icon">➕</span> Nouvelle annonce</div>
       <div class="dash-nav-item"><span class="dash-nav-icon">📋</span> Mes annonces</div>
       <div class="dash-nav-item"><span class="dash-nav-icon">👥</span> Clients</div>
       <div class="dash-nav-item"><span class="dash-nav-icon">📅</span> Visites</div>
@@ -37,20 +36,32 @@
     </div>
 
     <div class="dash-content">
-      <!-- KPI CARDS -->
       <div class="kpi-row"></div>
 
-      <!-- AI INSIGHTS -->
       <div class="ai-section">
-        <div class="ai-header"><div class="ai-dot"></div><span class="ai-title">Prévisions & Recommandations IA</span></div>
+        <div class="ai-header">
+          <div class="ai-dot"></div>
+          <span class="ai-title">Prévisions & Recommandations IA</span>
+        </div>
         <div class="ai-insights">
-          <div class="ai-insight"><div class="ai-insight-label">Biens à repositionner (prix)</div><div class="ai-insight-value">3 annonces</div><div class="ai-insight-sub">Surpassent le marché de +8%</div></div>
-          <div class="ai-insight"><div class="ai-insight-label">Leads chauds détectés</div><div class="ai-insight-value">5 prospects</div><div class="ai-insight-sub trend-up">Probabilité achat > 70%</div></div>
-          <div class="ai-insight"><div class="ai-insight-label">Meilleure zone ce mois</div><div class="ai-insight-value">Marseille Sud</div><div class="ai-insight-sub trend-up">Demande +34% YoY</div></div>
+          <div class="ai-insight">
+            <div class="ai-insight-label">Biens à repositionner (prix)</div>
+            <div class="ai-insight-value">3 annonces</div>
+            <div class="ai-insight-sub">Surpassent le marché de +8%</div>
+          </div>
+          <div class="ai-insight">
+            <div class="ai-insight-label">Leads chauds détectés</div>
+            <div class="ai-insight-value">5 prospects</div>
+            <div class="ai-insight-sub trend-up">Probabilité achat > 70%</div>
+          </div>
+          <div class="ai-insight">
+            <div class="ai-insight-label">Meilleure zone ce mois</div>
+            <div class="ai-insight-value">Marseille Sud</div>
+            <div class="ai-insight-sub trend-up">Demande +34% YoY</div>
+          </div>
         </div>
       </div>
 
-      <!-- GRID WITH TABLE AND STATS -->
       <div class="dash-grid3">
         <div class="widget">
           <div class="widget-title">Mes biens récents</div>
@@ -60,26 +71,10 @@
           <div class="widget-title">Répartition par type</div>
           <div class="pie-visual"></div>
           <div class="pie-legend">
-            <div class="pie-row">
-              <div class="pie-dot" style="background: var(--gold);"></div>
-              <div class="pie-name">Appartements</div>
-              <div class="pie-pct">38%</div>
-            </div>
-            <div class="pie-row">
-              <div class="pie-dot" style="background: var(--accent);"></div>
-              <div class="pie-name">Maisons</div>
-              <div class="pie-pct">24%</div>
-            </div>
-            <div class="pie-row">
-              <div class="pie-dot" style="background: #4A6090;"></div>
-              <div class="pie-name">Bureaux</div>
-              <div class="pie-pct">17%</div>
-            </div>
-            <div class="pie-row">
-              <div class="pie-dot" style="background: var(--dark3);"></div>
-              <div class="pie-name">Autres</div>
-              <div class="pie-pct">21%</div>
-            </div>
+            <div class="pie-row"><div class="pie-dot" style="background:var(--gold)"></div><div class="pie-name">Appartements</div><div class="pie-pct">38%</div></div>
+            <div class="pie-row"><div class="pie-dot" style="background:var(--accent)"></div><div class="pie-name">Maisons</div><div class="pie-pct">24%</div></div>
+            <div class="pie-row"><div class="pie-dot" style="background:#4A6090"></div><div class="pie-name">Bureaux</div><div class="pie-pct">17%</div></div>
+            <div class="pie-row"><div class="pie-dot" style="background:var(--dark3)"></div><div class="pie-name">Autres</div><div class="pie-pct">21%</div></div>
           </div>
         </div>
       </div>
@@ -87,6 +82,7 @@
   </div>
 
   <script src="js/router.js"></script>
+  <script src="js/auth-guard.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>

@@ -48,6 +48,49 @@ async def lifespan(app: FastAPI):
                 logger.info(f"Compte de test déjà présent: {settings.TEST_USER_EMAIL}")
         except Exception as e:
             logger.warning(f"Impossible de créer compte de test: {e}")
+
+    # Compte agent de test
+    if settings.TEST_AGENT_EMAIL and settings.TEST_AGENT_PASSWORD:
+        try:
+            existing = await User.find_one(User.email == settings.TEST_AGENT_EMAIL)
+            if not existing:
+                user = User(
+                    first_name=settings.TEST_AGENT_FIRST_NAME,
+                    last_name=settings.TEST_AGENT_LAST_NAME,
+                    email=settings.TEST_AGENT_EMAIL,
+                    hashed_password=hash_password(settings.TEST_AGENT_PASSWORD),
+                    role=UserRole.AGENT,
+                    is_active=True,
+                    is_verified=True,
+                )
+                await user.insert()
+                logger.info(f"Compte agent créé: {settings.TEST_AGENT_EMAIL}")
+            else:
+                logger.info(f"Compte agent déjà présent: {settings.TEST_AGENT_EMAIL}")
+        except Exception as e:
+            logger.warning(f"Impossible de créer compte agent: {e}")
+
+    # Compte client de test
+    if settings.TEST_CLIENT_EMAIL and settings.TEST_CLIENT_PASSWORD:
+        try:
+            existing = await User.find_one(User.email == settings.TEST_CLIENT_EMAIL)
+            if not existing:
+                user = User(
+                    first_name=settings.TEST_CLIENT_FIRST_NAME,
+                    last_name=settings.TEST_CLIENT_LAST_NAME,
+                    email=settings.TEST_CLIENT_EMAIL,
+                    hashed_password=hash_password(settings.TEST_CLIENT_PASSWORD),
+                    role=UserRole.CLIENT,
+                    is_active=True,
+                    is_verified=True,
+                )
+                await user.insert()
+                logger.info(f"Compte client créé: {settings.TEST_CLIENT_EMAIL}")
+            else:
+                logger.info(f"Compte client déjà présent: {settings.TEST_CLIENT_EMAIL}")
+        except Exception as e:
+            logger.warning(f"Impossible de créer compte client: {e}")
+
     yield
     await close_db()
     logger.info("Arrêt de l'application")
